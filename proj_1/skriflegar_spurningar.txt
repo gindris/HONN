@@ -1,0 +1,13 @@
+! Gæti verið betra að búa til sér folder með klasa en að setja allt inn í i_sink ..... - Ottó.
+
+
+#3.1.3 Hvað er mynstrið?
+#útfærslan á þessum sinks er ákveðið patternm hvað er pattern-ið?
+    #Stragety pattern held ég.
+    #Skilgreining á stragety pattern: Strategy patternið samanstendur af fjölskyldu af skyldum reikniritum/virkni(í formi klasa) og gerir kleift að skipta einum klasa
+#út fyrir annan klasa í sömu fjölskyldu
+    #Þetta er gert með því að láta alla fjölskyldu meðlimina útfæra sama interface.
+
+# ->afhverju er þetta stragety pattern:
+#  við erum með fjölskyldu af sinks. sem við getum skipt á milli at runtime, ISink einangrar og felur virkni, program to an interface, not an implementation og auðvelt að bæta við nýjum sinks í kerfið.
+
