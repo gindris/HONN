@@ -57,7 +57,7 @@ class LoggerConfigBuilder:
         # If environment is specified, chain an EnvironmentProcessor before other processors
         if self.environment:
             from structured_logging.processors.environment_processor import EnvironmentProcessor
-            config.processor = EnvironmentProcessor(self.environment).set_next(config.processor)
+            config.processor = EnvironmentProcessor(self.environment).process(config.processor)
 
         # Clear the builder's state after building
         self._clear()

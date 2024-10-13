@@ -1,7 +1,7 @@
 from structured_logging.configuration.environment import Environment
-from structured_logging.processors.abstract_processor import AbstractProcessor
+from structured_logging.processors.abstract_processor import AbstracProcessor
 
-class EnvironmentProcessor(AbstractProcessor):
+class EnvironmentProcessor(AbstracProcessor):
     def __init__(self, environment: Environment):
         super().__init__()
         self.environment = environment

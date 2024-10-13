@@ -7,15 +7,16 @@
 from logging import Logger
 from typing import Any, Iterable
 
-from proj_1.structured_logging.command_queue.command import Command
+from structured_logging.sinks.i_sink import ISink
+from structured_logging.command_queue.command import Command
 
 
 class LoggerCommand (Command):
-    def __init__(self, logger: Logger, **kwargs: Iterable[Any]):
-        self.__logger = logger
-        self.__kwargs = kwargs
-        self.async_delay = logger.logger_config.async_delay #exposa async_delay úr loggerConfig svo queue geti notað það
-
+    def __init__(self, sink: ISink, data: dict):
+        self.__sink = sink
+        self.__data = data 
+    
     def execute(self):
-        self.__logger.sink_data(self.__kwargs) 
-    #bjó til fall sink_data í logger sem keyrir viðeigandi sink_data úr loggerConfig
+        self.__sink.sink_data(self.__data)
+        return self.__data
+        
