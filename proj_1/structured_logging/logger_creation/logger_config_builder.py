@@ -12,7 +12,7 @@ class LoggerConfigBuilder:
         self.processor = NullProcessor()
         self.is_async = False
         self.async_wait_delay_in_seconds = 0
-        self.environment = None #ekki tekið fram að það sé default environment?
+        self.environment = None #ekki tekið fram að það sé default environment? ## Surely development?
 
     def with_custom_sink(self, sink: ISink) -> 'LoggerConfigBuilder':
         self.sink = sink
