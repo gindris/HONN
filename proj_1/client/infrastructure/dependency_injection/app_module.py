@@ -6,14 +6,16 @@ from client.repositories.order_repository import OrderRepository
 from client.services.payment_service_stub import PaymentServiceStub
 from client.infrastructure.logging.i_logger import ILogger
 from structured_logging.configuration.logger_config import LoggerConfig
+from structured_logging.command_queue.queue import Queue
 
 class AppModule(Module):
     def __init__(self, settings: Settings) -> None:
         self.__settings = settings
     
     @provider
-    def provide_logger(self) -> AdaptedLogger:
-        return AdaptedLogger(LoggerConfig)
+    def provide_logger(self) -> ILogger:
+        return AdaptedLogger(LoggerConfig, Queue(self.__settings.logging_async_delay))
+    
     
     @provider
     def provide_payment_service_stub(self, logger: ILogger) -> PaymentServiceStub:

@@ -14,7 +14,7 @@ class Logger:
         self.__logging_queue = logging_queue
 
     def log(self, **kwargs: Iterable[Any]):
-        processor = self.__logger_config.processor
+        processor = self.__logger_config.processor #TODO: þarf að laga
         data = processor.handle(kwargs)
 
         command = LoggerCommand(self.__logger_config.sink, data)
