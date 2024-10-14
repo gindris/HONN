@@ -5,10 +5,10 @@ from structured_logging.processors.null_processor import NullProcessor
 from structured_logging.processors.timestamp_processor import TimestampProcessor
 
 class LoggerConfigFactory:
-    @staticmethod
+    
     def create_logger_config(settings: Settings, builder: LoggerConfigBuilder) -> LoggerConfig:
         if settings.environment == 'production':
-            builder.with_console_sink()  # Set the sink to console in production
+            builder.with_file_sink()  # Set the sink to console in production
             builder.add_processor(TimestampProcessor())  # Add timestamp processing in production
         elif settings.environment == 'development':
             builder.with_console_sink()  # Console sink in development

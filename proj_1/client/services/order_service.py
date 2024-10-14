@@ -1,3 +1,4 @@
+from injector import inject
 from client.models.order import Order
 from client.repositories.order_repository import OrderRepository
 from client.services.payment_service_stub import PaymentServiceStub
@@ -5,6 +6,7 @@ from client.infrastructure.logging.i_logger import ILogger
 
 
 class OrderService:
+    @inject
     def __init__(self, payment_service: PaymentServiceStub, order_repository: OrderRepository, logger: ILogger):
         self.__payment_service = payment_service
         self.__logger = logger
