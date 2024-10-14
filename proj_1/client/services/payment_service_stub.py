@@ -1,9 +1,11 @@
+from injector import inject
 from client.infrastructure.logging.i_logger import ILogger
 from client.infrastructure.settings.settings import Settings
 from client.models.payment import Payment
 
 
 class PaymentServiceStub():
+    @inject
     def __init__(self, settings: Settings, logger: ILogger):
         self.__logger = logger
         self.__settings = settings
