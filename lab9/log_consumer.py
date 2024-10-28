@@ -17,8 +17,6 @@ connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost')
 channel = connection.channel()
 channel.queue_declare(queue='logs') 
 channel.basic_consume(queue='logs', on_message_callback=callback, auto_ack=True)
-
-print('Waiting for logs...')
 channel.start_consuming()
 
 
