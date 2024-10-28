@@ -6,7 +6,7 @@ import pika
 def connect_to_rabbitmq():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
-    channel.queue_declare(queue='logs')  # Declare the queue if it doesn't exist
+    channel.queue_declare(queue='logs') 
     return channel
 
 def publish_log(channel, log_entry):
