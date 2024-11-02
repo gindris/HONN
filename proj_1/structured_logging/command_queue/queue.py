@@ -12,10 +12,10 @@ class Queue:
     @inject
     def __init__(self, async_delay: int):
         self.async_delay = async_delay
+        self.command_queue = queue.Queue() #queue.Queue() er python queue klasinn til að halda utan um fifo queue
         self.__thread = threading.Thread(target=self.__process)
         self.__thread.daemon = True
         self.__thread.start()
-        self.command_queue = queue.Queue() #queue.Queue() er python queue klasinn til að halda utan um fifo queue
 
     #bæta við command í queue
     def add(self, command: Command):
@@ -25,7 +25,7 @@ class Queue:
     def __process(self):
         while True:
             try:
-                command = self.command_queue.get(timeout=self.async_delay) #TODO: remove command.async_delay, nota async_delay sem injected dependency
+                command = self.command_queue.get(timeout=self.async_delay) 
                 if command is not None:
                     command.execute()
                     self.command_queue.task_done()
