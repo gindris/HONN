@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  message-api:
+    # TODO
+  
+  message-processsor:
+    # TODO
+
+  rabbitmq:
+    # TODO
+
+volumes:
+  # TODO
