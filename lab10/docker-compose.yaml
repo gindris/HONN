@@ -1,13 +1,51 @@
-version: "3.8"
+version: '3.12'
 services:
   message-api:
-    # TODO
-  
+    build:
+      context: ./MessageApi
+      dockerfile: Dockerfile
+    container_name: message-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://admin:lab10@postgres_lab10:5432/lab10_messages
+    depends_on:
+      - postgres
+
   message-processsor:
-    # TODO
+    build:
+      context: ./MessageProcessor
+      dockerfile: Dockerfile
+    container_name: message-processor
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
 
   rabbitmq:
-    # TODO
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: lab10
+
+  postgres:
+    image: postgres:15
+    container_name: postgres_lab10
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: lab10
+      POSTGRES_DB: lab10_messages
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432" 
 
 volumes:
-  # TODO
+  postgres_data:
+    driver: local

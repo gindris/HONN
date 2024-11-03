@@ -13,7 +13,11 @@ router = APIRouter()
 @inject
 async def get_message(id: int, message_repository: MessageRepository = Depends(Provide[Container.message_repository_provider])):
     # TODO: get message with id
-    pass
+    message = await message_repository.get_message(id)
+
+    if not message:
+        return {'error': 'Message not found'}, 404
+    return message
 
 
 @router.post('/messages', status_code=201)
@@ -25,4 +29,8 @@ async def save_messages(message: MessageModel,
                             Provide[Container.message_repository_provider])):
 
     # TODO: save message and send message event
-    pass
+    message_id = await message_repository.save_message(message.message)
+
+    message_sender.send_message(message.message)
+
+    return {'id': message_id}
