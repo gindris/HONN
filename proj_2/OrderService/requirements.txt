@@ -1,0 +1,6 @@
+database
+sqlalchemy
+fastapi
+dependency-injector
+pydantic
+requests
