@@ -1,0 +1,72 @@
+version: '3.12'
+
+services:
+  OrderService:
+    build:
+      context: ./OrderService
+      dockerfile: Dockerfile
+    container_name: order-service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"  
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - DATABASE_URL=postgresql://admin:adminpass@postgres_orders:5432/orders_db
+    depends_on:
+      - postgres_orders
+      - rabbitmq
+
+  PaymentService:
+    build:
+      context: ./PaymentService
+      dockerfile: Dockerfile
+    container_name: payment-service
+    restart: unless-stopped
+    ports:
+      - "8001:8001" 
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - DATABASE_URL=postgresql://admin:adminpass@postgres_payments:5432/payments_db
+    depends_on:
+      - postgres_payments
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "15672:15672"  
+      - "5672:5672"   
+
+  postgres_orders:
+    image: postgres:15
+    container_name: postgres_orders
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpass
+      POSTGRES_DB: orders_db
+    volumes:
+      - postgres_orders_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432" 
+
+  postgres_payments:
+    image: postgres:15
+    container_name: postgres_payments
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpass
+      POSTGRES_DB: payments_db
+    volumes:
+      - postgres_payments_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432" 
+
+volumes:
+  postgres_orders_data:
+    driver: local
+  postgres_payments_data:
+    driver: local

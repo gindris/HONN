@@ -1,7 +1,7 @@
 from dependency_injector import containers, providers
 
 from order_repository import OrderRepository
-from order_events import OrderEvents
+from OrderService.order_events_send import OrderEvents
 
 class Container(containers.DeclarativeContainer):
     order_service_repository_provider = providers.Singleton(
@@ -11,3 +11,4 @@ class Container(containers.DeclarativeContainer):
     order_service_events_provider = providers.Singleton(
         OrderEvents
     )
+
