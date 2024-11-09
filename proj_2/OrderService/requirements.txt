@@ -1,6 +1,9 @@
-database
+databases
 sqlalchemy
 fastapi
 dependency-injector
 pydantic
 requests
+pika
+retry
+uvicorn
