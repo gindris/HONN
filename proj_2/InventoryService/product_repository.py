@@ -32,3 +32,24 @@ class ProductRepository:
         # TODO: return product with id from storage
         query = products_table.select().where(products_table.c.id == id)
         return database.fetch_one(query)
+    
+    async def reserve_product(self, id: int, quantity: int) -> bool:
+        # Reserve quantity of product with id
+        query = products_table.update().where(
+            products_table.c.id == id).values(
+                reserved=products_table.c.reserved + quantity)
+        return database.execute(query)
+    
+    async def unreserve_product(self, id: int, quantity: int) -> bool:
+        # Unreserve quantity of product with id
+        query = products_table.update().where(
+            products_table.c.id == id).values(
+                reserved=products_table.c.reserved - quantity)
+        return database.execute(query)
+    
+    async def sell_product(self, id: int, quantity: int) -> bool:
+        # Sell quantity of product with id
+        query = products_table.update().where(
+            products_table.c.id == id).values(
+                quantity=products_table.c.quantity - quantity)
+        return database.execute(query)
