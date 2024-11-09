@@ -7,3 +7,5 @@ requests
 pika
 retry
 uvicorn
+asyncpg
+psycopg2-binary
