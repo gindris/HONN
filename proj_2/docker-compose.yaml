@@ -51,6 +51,32 @@ services:
       - postgres_merchant_data:/var/lib/postgresql/data
     ports:
       - "5555:5555"
+  
+  postgres_buyer_db:
+    image: postgres:15
+    container_name: postgres_buyer_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpass
+      POSTGRES_DB: buyer_db
+    volumes:
+      - postgres_merchant_data:/var/lib/postgresql/data
+    ports:
+      - "5577:5555"
+
+  postgres_inventory_db:
+    image: postgres:15
+    container_name: postgres_inventory_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpass
+      POSTGRES_DB: inventory_db
+    volumes:
+      - postgres_merchant_data:/var/lib/postgresql/data
+    ports:
+      - "5566:5555"
 
   postgres_orders:
     image: postgres:15
