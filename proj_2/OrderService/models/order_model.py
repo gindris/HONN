@@ -4,7 +4,7 @@ class CreditCardModel(BaseModel):
     cardNumber: str
     expirationMonth: int
     expirationYear: int
-    cvv: int
+    cvc: int
 
 class OrderModel(BaseModel):
     productId: int

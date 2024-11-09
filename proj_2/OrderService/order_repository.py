@@ -1,11 +1,9 @@
 from database import database, engine, metadata
 from sqlalchemy import Table, Column, Integer, String, Float
 import requests
-from OrderService.order_events_send import OrderEvents
-from OrderService.order_events_receive import OrderService
-
-
+from order_events_send import OrderEvents
 from models.order_model import OrderModel
+
 orders_table = Table(
     'orders',
     metadata,
@@ -19,6 +17,8 @@ orders_table = Table(
     Column('cvc', Integer),
     Column('discount', Float),
 )
+
+metadata.create_all(engine)
 
 class OrderRepository:
     async def create_order(self, order: OrderModel, order_events: OrderEvents):
@@ -57,11 +57,29 @@ class OrderRepository:
             cardNumber=order.creditCard.cardNumber,
             expirationMonth=order.creditCard.expirationMonth,
             expirationYear=order.creditCard.expirationYear,
-            cvv=order.creditCard.cvv,
+            cvc=order.creditCard.cvc,
             discount=order.discount
         )
         order_id = await database.execute(query)
         order_events.send_order_created_event(order, order_id)
+        return order_id
+        #order_events.send_order_created_event(order, order_id)
+
+    async def get_order(self, order_id: int):
+        query = orders_table.select().where(orders_table.c.id == order_id)
+        order = await database.fetch_one(query)
+        if order is None:
+            return None
+        
+        order['cardNumber'] = '*' * 12 + order['cardNumber'][-4:]
+        order = {
+            "productId": order['productId'],
+            "merchantId": order['merchantId'],
+            "buyerId": order['buyerId'],
+            "cardNumber": order['cardNumber'],    
+            "discount": order['discount']
+        }
+        return order
         
 
 

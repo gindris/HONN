@@ -1,2 +1,9 @@
 pika
 retry
+databases
+sqlalchemy
+asyncpg
+psycopg2-binary
+asyncio
+fastapi
+uvicorn

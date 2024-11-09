@@ -1,7 +1,5 @@
-version: '3.12'
-
 services:
-  OrderService:
+  orderservice:
     build:
       context: ./OrderService
       dockerfile: Dockerfile
@@ -16,7 +14,7 @@ services:
       - postgres_orders
       - rabbitmq
 
-  PaymentService:
+  paymentservice:
     build:
       context: ./PaymentService
       dockerfile: Dockerfile
