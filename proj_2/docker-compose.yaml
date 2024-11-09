@@ -21,13 +21,58 @@ services:
     container_name: payment-service
     restart: unless-stopped
     ports:
-      - "8001:8001" 
+      - "8008:8008" 
     environment:
       - RABBITMQ_HOST=rabbitmq
       - DATABASE_URL=postgresql://admin:adminpass@postgres_payments:5432/payments_db
     depends_on:
       - postgres_payments
       - rabbitmq
+  
+  merchantservice:
+    build:
+      context: ./MerchantService
+      dockerfile: Dockerfile
+    container_name: merchant-service
+    restart: unless-stopped
+    ports:
+      - "8001:8001" 
+    environment:
+      - DATABASE_URL=postgresql://admin:adminpass@postgres_merchant_db:5432/merchant_db
+    depends_on:
+      - postgres_merchant_db
+    networks:
+      - merchant-network
+    
+  inventoryservice:
+    build:
+      context: ./InventoryService
+      dockerfile: Dockerfile
+    container_name: inventory-service
+    restart: unless-stopped
+    ports:
+      - "8003:8003" 
+    environment:
+      - DATABASE_URL=postgresql://admin:adminpass@postgres_inventory_db:5432/inventory_db
+    depends_on:
+      - postgres_inventory_db
+    networks:
+      - inventory-network
+
+  buyerservice:
+    build:
+      context: ./BuyerService
+      dockerfile: Dockerfile
+    container_name: buyer-service
+    restart: unless-stopped
+    ports:
+      - "8002:8002" 
+    environment:
+      - DATABASE_URL=postgresql://admin:adminpass@postgres_buyer_db:5432/buyer_db
+    depends_on:
+      - postgres_buyer_db
+    networks:
+      - buyer-network
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -47,8 +92,8 @@ services:
       POSTGRES_DB: merchant_db
     volumes:
       - postgres_merchant_data:/var/lib/postgresql/data
-    ports:
-      - "5555:5555"
+    networks:
+      - merchant-network
   
   postgres_buyer_db:
     image: postgres:15
@@ -59,9 +104,9 @@ services:
       POSTGRES_PASSWORD: adminpass
       POSTGRES_DB: buyer_db
     volumes:
-      - postgres_merchant_data:/var/lib/postgresql/data
-    ports:
-      - "5577:5555"
+      - postgres_buyer_data:/var/lib/postgresql/
+    networks:
+      - buyer-network
 
   postgres_inventory_db:
     image: postgres:15
@@ -72,9 +117,9 @@ services:
       POSTGRES_PASSWORD: adminpass
       POSTGRES_DB: inventory_db
     volumes:
-      - postgres_merchant_data:/var/lib/postgresql/data
-    ports:
-      - "5566:5555"
+      - postgres_inventory_data:/var/lib/postgresql/data
+    networks:
+      - inventory-network
 
   postgres_orders:
     image: postgres:15
@@ -107,3 +152,17 @@ volumes:
     driver: local
   postgres_payments_data:
     driver: local
+  postgres_merchant_data:
+    driver: local
+  postgres_buyer_data:
+    driver: local
+  postgres_inventory_data:
+    driver: local
+  
+networks:
+  buyer-network:
+    driver: bridge
+  merchant-network:
+    driver: bridge
+  inventory-network:
+    driver: bridge

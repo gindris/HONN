@@ -6,4 +6,3 @@ class BuyerModel(BaseModel):
     ssn: str
     email: str
     phoneNumber: str
-    allowsDiscount: bool

@@ -5,7 +5,6 @@ class BuyerBase(BaseModel):
     ssn: str
     email: str
     phoneNumber: str
-    allowsDiscount: bool
 
 class BuyerCreate(BuyerBase):
     pass

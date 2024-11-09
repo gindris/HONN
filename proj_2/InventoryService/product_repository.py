@@ -8,8 +8,8 @@ products_table = Table(
     Column("merchantID", Integer, nullable=False),
     Column("productName", String, nullable=False),
     Column("price", Float, nullable=False),
-    Column("quantity", int, nullable=False),
-    Column("reserved", int, nullable=False),
+    Column("quantity", Integer, nullable=False),
+    Column("reserved", Integer, nullable=False)
 )
 
 metadata.create_all(engine)
@@ -18,11 +18,11 @@ class ProductRepository:
     async def save_product(self, product) -> int:
         # Insert the product into the database
         query = products_table.insert().values(
-            name=product.name,
-            ssn=product.ssn,
-            email=product.email,
-            phoneNumber=product.phoneNumber,
-            allowsDiscount=product.allowsDiscount
+            merchantID=product.merchantId,
+            productName=product.productName,
+            price=product.price,
+            quantity=product.quantity,
+            reserved=0
         )
         
         product_id = await database.execute(query)
