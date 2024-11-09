@@ -1,5 +1,5 @@
 from dependency_injector.wiring import inject, Provide
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from merchant_model import MerchantModel
 from container import Container
@@ -15,7 +15,7 @@ async def get_merchant(id: int, merchant_repository: MerchantRepository = Depend
     merchant = await merchant_repository.get_merchant(id)
 
     if not merchant:
-        return {'error': 'merchant not found'}, 404
+        raise HTTPException(status_code=404, detail='merchant not found')
     return merchant
 
 

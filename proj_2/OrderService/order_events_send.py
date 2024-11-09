@@ -15,7 +15,6 @@ class OrderEvents:
         self.channel.queue_declare(queue='Order-Created', durable=True)
 
     def send_order_created_event(self, order_data: OrderModel, order_id: int):
-        # Convert the order data to a dictionary with just the credit card info
         message = {
             "orderId": order_id,
             "orderData": {
@@ -31,7 +30,7 @@ class OrderEvents:
             routing_key='Order-Created',
             body=json.dumps(message),
             properties=pika.BasicProperties(
-                delivery_mode=2,  # make message persistent
+                delivery_mode=2,
                 content_type='application/json'
             )
         )

@@ -13,6 +13,11 @@ services:
     depends_on:
       - postgres_orders
       - rabbitmq
+    networks:
+      - order-network
+      - merchant-network
+      - buyer-network
+      - inventory-network
 
   paymentservice:
     build:
@@ -80,7 +85,10 @@ services:
     restart: unless-stopped
     ports:
       - "15672:15672"  
-      - "5672:5672" 
+      - "5672:5672"
+    networks:
+      - order-network
+      - payment-network
   
   postgres_merchant_db:
     image: postgres:15
@@ -133,6 +141,8 @@ services:
       - postgres_orders_data:/var/lib/postgresql/data
     ports:
       - "5433:5432" 
+    networks:
+      - order-network
 
   postgres_payments:
     image: postgres:15
@@ -166,3 +176,8 @@ networks:
     driver: bridge
   inventory-network:
     driver: bridge
+  order-network:
+    driver: bridge
+  payment-network:
+    driver: bridge
+

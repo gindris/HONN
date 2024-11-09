@@ -7,7 +7,7 @@ from order_events_send import OrderEvents
 
 router = APIRouter()
 
-@router.post("/order", status_code=201)
+@router.post("/orders", status_code=201)
 @inject
 async def create_order(order: OrderModel, 
                     order_repository: OrderRepository = 
@@ -18,7 +18,7 @@ async def create_order(order: OrderModel,
     order_id = await order_repository.create_order(order, order_events)
     return {"orderId": order_id}
 
-@router.get("/order/{order_id}")
+@router.get("/orders/{order_id}")
 @inject
 async def get_order(order_id: int, 
                     order_repository: OrderRepository = 
