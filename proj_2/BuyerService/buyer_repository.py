@@ -20,8 +20,7 @@ class BuyerRepository:
             name=buyer.name,
             ssn=buyer.ssn,
             email=buyer.email,
-            phoneNumber=buyer.phoneNumber,
-            allowsDiscount=buyer.allowsDiscount
+            phoneNumber=buyer.phoneNumber
         )
         
         buyer_id = await database.execute(query)

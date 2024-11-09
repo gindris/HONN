@@ -5,7 +5,7 @@ class ProductBase(BaseModel):
     productName: str
     price: float
     quantity: int
-    reserved: int = 0
+    reserved: int
 
 class ProductCreate(ProductBase):
     pass
