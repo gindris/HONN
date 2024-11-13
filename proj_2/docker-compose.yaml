@@ -33,6 +33,9 @@ services:
     depends_on:
       - postgres_payments
       - rabbitmq
+    networks:
+      - payment-network
+      - order-network
   
   merchantservice:
     build:
@@ -155,7 +158,9 @@ services:
     volumes:
       - postgres_payments_data:/var/lib/postgresql/data
     ports:
-      - "5434:5432" 
+      - "5434:5432"
+    networks:
+      - payment-network
 
 volumes:
   postgres_orders_data:

@@ -14,4 +14,4 @@ class ProductResponse(ProductBase):
     id: int
 
     class Config:
-        from_attributes = True  # Updated this line
+        from_attributes = True

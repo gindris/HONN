@@ -11,7 +11,6 @@ router = APIRouter()
 @router.get('/merchants/{id}', status_code=200)
 @inject
 async def get_merchant(id: int, merchant_repository: MerchantRepository = Depends(Provide[Container.merchant_repository_provider])):
-    # TODO: get merchant with id
     merchant = await merchant_repository.get_merchant(id)
 
     if not merchant:
@@ -25,7 +24,6 @@ async def save_merchant(merchant: MerchantModel,
                         merchant_repository: MerchantRepository = Depends(
                             Provide[Container.merchant_repository_provider])):
 
-    # Save the merchant and return the id
     merchant_id = await merchant_repository.save_merchant(merchant)
 
     return {'id': merchant_id}

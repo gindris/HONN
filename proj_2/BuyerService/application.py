@@ -17,11 +17,11 @@ def create_app() -> FastAPI:
     container = Container()
     container.wire(modules=[endpoints])
 
-    app = FastAPI(lifespan=lifespan)  # Include the lifespan here
+    app = FastAPI(lifespan=lifespan)
     app.container = container
     app.include_router(endpoints.router)
 
-    return app  # Ensure the app is returned
+    return app
 
 app = create_app()
 

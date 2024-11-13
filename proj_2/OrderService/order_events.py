@@ -35,7 +35,3 @@ class OrderEvents:
             )
         )
         print(f"Order-Created Event Sent: {json.dumps(message)}")
-
-    def __del__(self):
-        if self.connection and not self.connection.is_closed:
-            self.connection.close()

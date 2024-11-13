@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from models.order_model import OrderModel
 from container import Container
 from order_repository import OrderRepository
-from order_events_send import OrderEvents
+from order_events import OrderEvents
 
 router = APIRouter()
 

@@ -14,7 +14,7 @@ async def lifespan(app: FastAPI):
 def create_app():
     container = Container()
     container.wire(modules=[endpoints])
-    app = FastAPI(lifespan=lifespan)
+    app = FastAPI(lifespan=lifespan)  # Include the lifespan here
     app.container = container
     app.include_router(endpoints.router)
 
